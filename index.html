@@ -217,17 +217,15 @@
       let msg =
     `${emoji} *New Order - Tiba-Tiba Beli* ${emoji}
     
-    \`\`\`
-    Nama      : ${name}
+
+     \`\`\` Nama      : ${name}
     Prodi     : ${prodi}
     Angkatan  : ${angkatan}
-    
-    Pesanan :
-    \`\`\`
+    Pesanan : \`\`\`
     `;
     
       lines.forEach(l => msg += `- ${l}\n`);
-      msg += `\n*Harga total :* ${formatRp(total)}\n`;
+      msg += `*Harga total :* ${formatRp(total)}\n`;
     
       const encoded = encodeURIComponent(msg);
       window.open(`https://wa.me/${WA_NUMBER}?text=${encoded}`, '_blank');
