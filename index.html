@@ -9,7 +9,6 @@
   <style>
     :root {
       --pastel-yellow: #FFF8E1;
-      --banana-yellow: #FFF3B0;
       --brown: #8B5E3C;
       --card-shadow: 0 10px 25px rgba(139,94,60,0.08);
     }
@@ -20,8 +19,6 @@
     }
     .product-card { box-shadow: var(--card-shadow); border-radius: 16px; }
     .btn-primary-custom { background: linear-gradient(90deg,#FFD966,#F7C948); color: var(--brown); }
-    .cart-bar { transform: translateY(120%); transition: transform .35s ease; }
-    .cart-bar.show { transform: translateY(0%); }
     .pop-in { transform: translateY(8px); opacity: 0; animation: pop .45s ease forwards; }
     @keyframes pop { to { transform: translateY(0); opacity: 1; } }
     input[type="number"]::-webkit-inner-spin-button,
@@ -41,13 +38,9 @@
       <section class="product-card bg-white p-4 flex flex-col items-center text-center">
         <!-- Gambar -->
         <div class="w-full rounded-2xl overflow-hidden bg-yellow-50 mb-3 shadow-md hover:shadow-lg transition-shadow duration-300">
-          <img 
-            src="img/banana.jpg" 
-            alt="Banana Bomb" 
-            class="w-full h-48 sm:h-56 object-cover"
-          >
+          <img src="img/banana.jpg" alt="Banana Bomb" class="w-full h-48 sm:h-56 object-cover">
         </div>
-      
+
         <!-- Keterangan Produk -->
         <h2 class="text-xl font-semibold" style="color:var(--brown)">
           Banana Bomb <span class="text-sm text-slate-500">(6 pcs/box)</span>
@@ -55,7 +48,7 @@
         <p class="mt-1 text-sm text-slate-600">
           Gorengan banana ball lembut, cocok buat acara PO. Tambah ekstra keju +Rp1.000/box
         </p>
-      
+
         <!-- Qty Banana -->
         <div class="mt-4 grid grid-cols-1 gap-3 w-full max-w-xs mx-auto">
           <div class="flex justify-center items-center gap-2">
@@ -66,7 +59,7 @@
               <button id="plusQty" class="px-3 py-1 bg-yellow-100 text-lg">+</button>
             </div>
           </div>
-      
+
           <!-- Qty Extra Keju -->
           <div class="flex flex-col sm:flex-row sm:items-center justify-center gap-1 sm:gap-2 mt-2">
             <div class="flex items-center gap-2 justify-center">
@@ -80,37 +73,30 @@
             <span class="text-sm text-slate-500 mt-1 sm:mt-0 sm:ml-2">+Rp1.000/box</span>
           </div>
         </div>
-      
+
         <!-- Tombol -->
         <div class="mt-4 flex flex-col sm:flex-row gap-2 w-full max-w-xs">
           <button id="addBtn" class="btn btn-primary btn-lg btn-primary-custom shadow-sm w-full">Tambah ke Keranjang</button>
           <button id="buyBtn" class="btn btn-outline-secondary w-full">Lihat Info</button>
         </div>
+
+        <!-- Cart Info (Pindah ke bawah produk) -->
+        <div id="cartSection" class="mt-6 w-full max-w-md text-left hidden">
+          <h3 class="mb-2 text-lg font-semibold" style="color:var(--brown)">Keranjang Pesanan</h3>
+          <div id="cartItems" class="text-sm text-slate-600 mb-2">Belum ada pesanan</div>
+          <div class="flex justify-between items-center mb-3">
+            <div class="text-slate-500 text-sm">Total</div>
+            <div id="totalPrice" class="fw-bold text-base" style="color:var(--brown)">Rp0</div>
+          </div>
+          <div class="d-flex gap-2">
+            <button id="checkoutBtn" class="btn btn-success flex-grow-1">Checkout via WhatsApp</button>
+            <button id="clearBtn" class="btn btn-light">Clear</button>
+          </div>
+        </div>
       </section>
 
       <p class="mt-3 text-xs text-slate-500">*Max 20 box per order. Checkout akan mengarahkan ke WhatsApp.</p>
     </main>
-  </div>
-
-  <!-- Cart Bar -->
-  <div id="cartBar" class="fixed bottom-0 left-0 right-0 z-50 p-4 cart-bar bg-white border-t" style="border-color:rgba(139,94,60,0.08)">
-    <div class="container container-sm mx-auto">
-      <div class="d-flex align-items-start justify-content-between">
-        <div>
-          <h3 class="mb-1" style="color:var(--brown)">Keranjang Pesanan</h3>
-          <div id="cartItems" class="text-sm text-slate-600">Belum ada pesanan</div>
-        </div>
-        <div class="text-end">
-          <div class="text-xs text-slate-500">Total</div>
-          <div id="totalPrice" class="fw-bold" style="color:var(--brown)">Rp0</div>
-        </div>
-      </div>
-
-      <div class="mt-3 d-flex gap-2">
-        <button id="checkoutBtn" class="btn btn-success flex-grow-1">Checkout via WhatsApp</button>
-        <button id="clearBtn" class="btn btn-light">Clear</button>
-      </div>
-    </div>
   </div>
 
   <!-- Form Data -->
@@ -142,7 +128,7 @@
     const minusCheese = document.getElementById('minusCheese');
     const plusCheese = document.getElementById('plusCheese');
     const buyBtn = document.getElementById('buyBtn');
-    const cartBar = document.getElementById('cartBar');
+    const cartSection = document.getElementById('cartSection');
     const cartItems = document.getElementById('cartItems');
     const totalPriceEl = document.getElementById('totalPrice');
     const checkoutBtn = document.getElementById('checkoutBtn');
@@ -161,11 +147,11 @@
     function updateCartView() {
       if (cart.length === 0) {
         cartItems.innerHTML = 'Belum ada pesanan';
-        cartBar.classList.remove('show');
         totalPriceEl.textContent = formatRp(0);
+        cartSection.classList.add('hidden');
         return;
       }
-      cartBar.classList.add('show');
+      cartSection.classList.remove('hidden');
       let html = '';
       let total = 0;
       cart.forEach((it, idx) => {
@@ -197,10 +183,8 @@
     addBtn.addEventListener('click', () => {
       let qty = parseInt(qtyInput.value) || 1;
       let cheese = parseInt(cheeseQty.value) || 0;
-      if (qty < 1) qty = 1;
-      if (qty > MAX_PER_ORDER) qty = MAX_PER_ORDER;
-      if (cheese < 0) cheese = 0;
-      if (cheese > MAX_PER_ORDER) cheese = MAX_PER_ORDER;
+      qty = Math.min(Math.max(qty, 1), MAX_PER_ORDER);
+      cheese = Math.min(Math.max(cheese, 0), MAX_PER_ORDER);
       cart.push({ qty, cheese });
       addBtn.textContent = 'Ditambahkan ✓';
       setTimeout(() => addBtn.textContent = 'Tambah ke Keranjang', 900);
@@ -212,26 +196,28 @@
     minusCheese.onclick = () => { let v = parseInt(cheeseQty.value); if (v > 0) cheeseQty.value = v - 1; };
     plusCheese.onclick = () => { let v = parseInt(cheeseQty.value); if (v < MAX_PER_ORDER) cheeseQty.value = v + 1; };
 
-    buyBtn.addEventListener('click', () => { if (cart.length === 0) { alert('Keranjang kosong'); return; } cartBar.classList.toggle('show'); });
+    buyBtn.addEventListener('click', () => {
+      if (cart.length === 0) alert('Keranjang kosong');
+      else window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    });
+
     clearBtn.addEventListener('click', () => { cart = []; updateCartView(); });
 
     checkoutBtn.addEventListener('click', () => {
-      if (cart.length === 0) { alert('Keranjang kosong'); return; }
-      userForm.classList.remove('hidden');
+      if (cart.length === 0) return alert('Keranjang kosong');
       userForm.style.display = 'flex';
     });
 
     cancelForm.addEventListener('click', () => { userForm.style.display = 'none'; });
 
-    // ✅ Fixed WhatsApp message format with emoji
     sendWA.addEventListener('click', () => {
       const name = nameInput.value.trim();
       const prodi = prodiInput.value.trim();
       const angkatan = angkatanInput.value.trim();
-      if (!name || !prodi || !angkatan) { alert('Mohon isi Nama, Prodi, dan Angkatan'); return; }
+      if (!name || !prodi || !angkatan) return alert('Mohon isi Nama, Prodi, dan Angkatan');
 
       let lines = [];
-      cart.forEach(it => { lines.push(`Banana Bomb x${it.qty} + Extra Keju x${it.cheese}`); });
+      cart.forEach(it => lines.push(`Banana Bomb x${it.qty} + Extra Keju x${it.cheese}`));
       const total = cart.reduce((s, it) => s + (PRICE_PER_BOX * it.qty) + (EXTRA_CHEESE_PRICE * it.cheese), 0);
       const emoji = '🍌✨';
 
@@ -239,8 +225,8 @@
       lines.forEach(l => msg += `- ${l}\n`);
       msg += `\n*Harga total :* ${formatRp(total)}\n`;
 
-      const encodedText = encodeURIComponent(msg);
-      const waURL = `https://api.whatsapp.com/send/?phone=${WA_NUMBER}&text=${emoji}+${encodedText}&type=phone_number&app_absent=0`;
+      const encoded = encodeURIComponent(msg);
+      const waURL = `https://api.whatsapp.com/send/?phone=${WA_NUMBER}&text=${emoji}+${encoded}&type=phone_number&app_absent=0`;
       window.open(waURL, '_blank');
       userForm.style.display = 'none';
     });
