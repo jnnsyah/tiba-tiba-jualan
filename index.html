@@ -238,7 +238,7 @@
       msg += `\n*Harga total :* ${formatRp(total)}\n`;
 
       const encodedText = encodeURIComponent(msg);
-      const waURL = `https://api.whatsapp.com/send/?phone=${WA_NUMBER}&text=${emoji}+${encodedText}+${emoji}&type=phone_number&app_absent=0`;
+      const waURL = `https://api.whatsapp.com/send/?phone=${WA_NUMBER}&text=${emoji}+${encodedText}&type=phone_number&app_absent=0`;
       window.open(waURL, '_blank');
       userForm.style.display = 'none';
     });
