@@ -200,18 +200,40 @@
       const name = nameInput.value.trim();
       const prodi = prodiInput.value.trim();
       const angkatan = angkatanInput.value.trim();
-      if(!name || !prodi || !angkatan){ alert('Mohon isi Nama, Prodi, dan Angkatan'); return; }
+      if (!name || !prodi || !angkatan) {
+        alert('Mohon isi Nama, Prodi, dan Angkatan');
+        return;
+      }
+    
       let lines = [];
-      cart.forEach(it => { lines.push(`Banana Bomb x${it.qty} + Extra Keju x${it.cheese}`); });
-      const total = cart.reduce((s,it)=> s + (PRICE_PER_BOX*it.qty) + (EXTRA_CHEESE_PRICE*it.cheese),0);
+      cart.forEach(it => {
+        lines.push(`Banana Bomb x${it.qty} + Extra Keju x${it.cheese}`);
+      });
+    
+      const total = cart.reduce((s, it) => s + (PRICE_PER_BOX * it.qty) + (EXTRA_CHEESE_PRICE * it.cheese), 0);
       const emoji = '🍌✨';
-      let msg = `${emoji} New Order - Tiba-Tiba Beli ${emoji}\nNama : ${name}\nProdi : ${prodi}\nAngkatan : ${angkatan}\nPesanan :\n`;
+    
+      // gunakan backtick + monospace agar teks rapi di WA
+      let msg =
+    `${emoji} *New Order - Tiba-Tiba Beli* ${emoji}
+    
+    \`\`\`
+    Nama      : ${name}
+    Prodi     : ${prodi}
+    Angkatan  : ${angkatan}
+    
+    Pesanan :
+    \`\`\`
+    `;
+    
       lines.forEach(l => msg += `- ${l}\n`);
-      msg += `Harga total : ${formatRp(total)}`;
+      msg += `\n*Harga total :* ${formatRp(total)}\n`;
+    
       const encoded = encodeURIComponent(msg);
-      window.open(`https://wa.me/${WA_NUMBER}?text=${encoded}`,'_blank');
+      window.open(`https://wa.me/${WA_NUMBER}?text=${encoded}`, '_blank');
       userForm.style.display = 'none';
     });
+
 
     updateCartView();
   </script>
