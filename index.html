@@ -3,36 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tiba-Tiba Jualan by Rama dan Layli — Banana Bomb</title>
+  <title>Tiba-Tiba Jualan by Rama & Layli — Banana Bomb</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    :root{
+    :root {
       --pastel-yellow: #FFF8E1;
       --banana-yellow: #FFF3B0;
       --brown: #8B5E3C;
       --card-shadow: 0 10px 25px rgba(139,94,60,0.08);
     }
-    body{ background: linear-gradient(180deg, var(--pastel-yellow) 0%, #FFFDF8 100%); }
-    .product-card{ box-shadow: var(--card-shadow); border-radius: 16px; }
-    .btn-primary-custom{ background: linear-gradient(90deg,#FFD966,#F7C948); color: var(--brown); }
-    .cart-bar{ transform: translateY(120%); transition: transform .35s ease; }
-    .cart-bar.show{ transform: translateY(0%); }
-    .pop-in{ transform: translateY(8px); opacity: 0; animation: pop .45s ease forwards; }
-    @keyframes pop{ to{ transform: translateY(0); opacity: 1; } }
-    @media(min-width:768px){ .container-sm { max-width:720px; } }
+    body {
+      background: linear-gradient(180deg, var(--pastel-yellow) 0%, #FFFDF8 100%);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    .product-card { box-shadow: var(--card-shadow); border-radius: 16px; }
+    .btn-primary-custom { background: linear-gradient(90deg,#FFD966,#F7C948); color: var(--brown); }
+    .cart-bar { transform: translateY(120%); transition: transform .35s ease; }
+    .cart-bar.show { transform: translateY(0%); }
+    .pop-in { transform: translateY(8px); opacity: 0; animation: pop .45s ease forwards; }
+    @keyframes pop { to { transform: translateY(0); opacity: 1; } }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
   </style>
 </head>
+
 <body class="min-h-screen text-brown-900">
   <div class="container container-sm mx-auto px-4 py-6">
     <header class="text-center mb-6">
       <h1 class="text-3xl sm:text-4xl font-extrabold" style="color:var(--brown)">Tiba-Tiba Jualan</h1>
-      <p class="text-base text-slate-600">by Rama &amp; Layli</p>
+      <p class="text-base text-slate-600">by Rama & Layli</p>
       <p class="mt-2 text-sm text-center text-slate-600">Pre-order Banana Bomb — cemilan manis isi 6 pcs per box</p>
     </header>
 
     <main>
-      <section class="product-card bg-white p-4 flex gap-3 items-start product-card">
+      <section class="product-card bg-white p-4 flex gap-3 items-start">
         <div class="w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-yellow-50">
           <img src="https://share.google/images/M4ipf44zl2mEenLkd" alt="Banana Bomb" class="w-full h-full object-cover">
         </div>
@@ -41,24 +47,28 @@
           <h2 class="text-xl font-semibold" style="color:var(--brown)">Banana Bomb <span class="text-sm text-slate-500">(6 pcs/box)</span></h2>
           <p class="mt-1 text-sm text-slate-600">Gorengan banana ball lembut, cocok buat acara PO. Tambah ekstra keju +Rp1.000/box</p>
 
+          <!-- Qty Banana -->
           <div class="mt-3 grid grid-cols-1 gap-3">
             <div class="flex items-center gap-2">
               <label class="form-label me-2 mb-0">Qty</label>
               <div class="flex items-center border rounded-lg overflow-hidden">
-                <button id="minusQty" class="px-3 py-1 bg-yellow-100">-</button>
-                <input id="qtyInput" type="number" min="1" max="20" value="1" class="w-16 text-center border-0">
-                <button id="plusQty" class="px-3 py-1 bg-yellow-100">+</button>
+                <button id="minusQty" class="px-3 py-1 bg-yellow-100 text-lg">−</button>
+                <input id="qtyInput" type="number" min="1" max="20" value="1" class="w-16 text-center border-0 text-base font-medium">
+                <button id="plusQty" class="px-3 py-1 bg-yellow-100 text-lg">+</button>
               </div>
             </div>
 
-            <div class="flex items-center gap-2">
-              <label class="form-label me-2 mb-0">Extra Keju</label>
-              <div class="flex items-center border rounded-lg overflow-hidden">
-                <button id="minusCheese" class="px-3 py-1 bg-yellow-100">-</button>
-                <input id="cheeseQty" type="number" min="0" max="20" value="0" class="w-16 text-center border-0">
-                <button id="plusCheese" class="px-3 py-1 bg-yellow-100">+</button>
+            <!-- Qty Extra Keju -->
+            <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mt-2">
+              <div class="flex items-center gap-2">
+                <label class="form-label me-2 mb-0">Extra Keju</label>
+                <div class="flex items-center border rounded-lg overflow-hidden">
+                  <button id="minusCheese" class="px-3 py-1 bg-yellow-100 text-lg">−</button>
+                  <input id="cheeseQty" type="number" min="0" max="20" value="0" class="w-16 text-center border-0 text-base font-medium">
+                  <button id="plusCheese" class="px-3 py-1 bg-yellow-100 text-lg">+</button>
+                </div>
               </div>
-              <span class="text-sm text-slate-500">+Rp1.000/box</span>
+              <span class="text-sm text-slate-500 mt-1 sm:mt-0 sm:ml-2">+Rp1.000/box</span>
             </div>
           </div>
 
@@ -73,6 +83,7 @@
     </main>
   </div>
 
+  <!-- Cart Bar -->
   <div id="cartBar" class="fixed bottom-0 left-0 right-0 z-50 p-4 cart-bar bg-white border-t" style="border-color:rgba(139,94,60,0.08)">
     <div class="container container-sm mx-auto">
       <div class="d-flex align-items-start justify-content-between">
@@ -93,6 +104,7 @@
     </div>
   </div>
 
+  <!-- Form Data -->
   <div id="userForm" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-60">
     <div class="bg-white rounded-xl p-4 w-11/12 max-w-md pop-in">
       <h4 class="mb-2" style="color:var(--brown)">Isi Data Pemesan</h4>
@@ -106,7 +118,6 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     const PRICE_PER_BOX = 5000;
     const EXTRA_CHEESE_PRICE = 1000;
@@ -134,10 +145,12 @@
     const sendWA = document.getElementById('sendWA');
     const cancelForm = document.getElementById('cancelForm');
 
-    function formatRp(n){ return 'Rp' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+    function formatRp(n) {
+      return 'Rp' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
 
-    function updateCartView(){
-      if(cart.length === 0){
+    function updateCartView() {
+      if (cart.length === 0) {
         cartItems.innerHTML = 'Belum ada pesanan';
         cartBar.classList.remove('show');
         totalPriceEl.textContent = formatRp(0);
@@ -149,20 +162,24 @@
       cart.forEach((it, idx) => {
         const itemTotal = (PRICE_PER_BOX * it.qty) + (EXTRA_CHEESE_PRICE * it.cheese);
         total += itemTotal;
-        html += `<div class='d-flex align-items-center gap-2 mb-2'>`+
-                `<div class='flex-grow-1'>`+
-                `<div class='fw-semibold'>Banana Bomb <small class='text-muted'>(6 pcs/box)</small></div>`+
-                `<div class='small text-muted'>Qty: ${it.qty}, Extra Keju: ${it.cheese}</div>`+
-                `</div>`+
-                `<div class='text-end'>${formatRp(itemTotal)}<br/><button data-idx='${idx}' class='btn btn-sm btn-link text-danger remove-btn'>Hapus</button></div>`+
-                `</div>`;
+        html += `
+          <div class='d-flex align-items-center gap-2 mb-2'>
+            <div class='flex-grow-1'>
+              <div class='fw-semibold'>Banana Bomb <small class='text-muted'>(6 pcs/box)</small></div>
+              <div class='small text-muted'>Qty: ${it.qty}, Extra Keju: ${it.cheese}</div>
+            </div>
+            <div class='text-end'>
+              ${formatRp(itemTotal)}<br/>
+              <button data-idx='${idx}' class='btn btn-sm btn-link text-danger remove-btn'>Hapus</button>
+            </div>
+          </div>`;
       });
       cartItems.innerHTML = html;
       totalPriceEl.textContent = formatRp(total);
       document.querySelectorAll('.remove-btn').forEach(btn => {
         btn.addEventListener('click', e => {
           const idx = Number(e.target.dataset.idx);
-          cart.splice(idx,1);
+          cart.splice(idx, 1);
           updateCartView();
         });
       });
@@ -171,67 +188,53 @@
     addBtn.addEventListener('click', () => {
       let qty = parseInt(qtyInput.value) || 1;
       let cheese = parseInt(cheeseQty.value) || 0;
-      if(qty < 1) qty = 1;
-      if(qty > MAX_PER_ORDER) qty = MAX_PER_ORDER;
-      if(cheese < 0) cheese = 0;
-      if(cheese > MAX_PER_ORDER) cheese = MAX_PER_ORDER;
+      if (qty < 1) qty = 1;
+      if (qty > MAX_PER_ORDER) qty = MAX_PER_ORDER;
+      if (cheese < 0) cheese = 0;
+      if (cheese > MAX_PER_ORDER) cheese = MAX_PER_ORDER;
       cart.push({ qty, cheese });
       addBtn.textContent = 'Ditambahkan ✓';
-      setTimeout(()=> addBtn.textContent = 'Tambah ke Keranjang', 900);
+      setTimeout(() => addBtn.textContent = 'Tambah ke Keranjang', 900);
       updateCartView();
     });
 
-    minusQty.onclick = () => { let v = parseInt(qtyInput.value); if(v>1) qtyInput.value = v-1; };
-    plusQty.onclick = () => { let v = parseInt(qtyInput.value); if(v<MAX_PER_ORDER) qtyInput.value = v+1; };
-    minusCheese.onclick = () => { let v = parseInt(cheeseQty.value); if(v>0) cheeseQty.value = v-1; };
-    plusCheese.onclick = () => { let v = parseInt(cheeseQty.value); if(v<MAX_PER_ORDER) cheeseQty.value = v+1; };
+    minusQty.onclick = () => { let v = parseInt(qtyInput.value); if (v > 1) qtyInput.value = v - 1; };
+    plusQty.onclick = () => { let v = parseInt(qtyInput.value); if (v < MAX_PER_ORDER) qtyInput.value = v + 1; };
+    minusCheese.onclick = () => { let v = parseInt(cheeseQty.value); if (v > 0) cheeseQty.value = v - 1; };
+    plusCheese.onclick = () => { let v = parseInt(cheeseQty.value); if (v < MAX_PER_ORDER) cheeseQty.value = v + 1; };
 
-    buyBtn.addEventListener('click', () => { if(cart.length === 0){alert('Keranjang kosong');return;} cartBar.classList.toggle('show'); });
+    buyBtn.addEventListener('click', () => { if (cart.length === 0) { alert('Keranjang kosong'); return; } cartBar.classList.toggle('show'); });
     clearBtn.addEventListener('click', () => { cart = []; updateCartView(); });
 
     checkoutBtn.addEventListener('click', () => {
-      if(cart.length === 0){ alert('Keranjang kosong'); return; }
+      if (cart.length === 0) { alert('Keranjang kosong'); return; }
       userForm.classList.remove('hidden');
       userForm.style.display = 'flex';
     });
+
     cancelForm.addEventListener('click', () => { userForm.style.display = 'none'; });
 
+    // ✅ Fixed WhatsApp message format with emoji
     sendWA.addEventListener('click', () => {
       const name = nameInput.value.trim();
       const prodi = prodiInput.value.trim();
       const angkatan = angkatanInput.value.trim();
-      if (!name || !prodi || !angkatan) {
-        alert('Mohon isi Nama, Prodi, dan Angkatan');
-        return;
-      }
-    
+      if (!name || !prodi || !angkatan) { alert('Mohon isi Nama, Prodi, dan Angkatan'); return; }
+
       let lines = [];
-      cart.forEach(it => {
-        lines.push(`Banana Bomb x${it.qty} + Extra Keju x${it.cheese}`);
-      });
-    
+      cart.forEach(it => { lines.push(`Banana Bomb x${it.qty} + Extra Keju x${it.cheese}`); });
       const total = cart.reduce((s, it) => s + (PRICE_PER_BOX * it.qty) + (EXTRA_CHEESE_PRICE * it.cheese), 0);
       const emoji = '🍌✨';
-    
-      // gunakan backtick + monospace agar teks rapi di WA
-      let msg =
-    `${emoji} *New Order - Tiba-Tiba Beli* ${emoji}
-    
 
-     \`\`\` Nama      : ${name}
-    Prodi     : ${prodi}
-    Angkatan  : ${angkatan}
-    Pesanan : \`\`\`
-    `;
-    
+      let msg = `*New Order - Tiba-Tiba Beli*\n\n\`\`\`\nNama      : ${name}\nProdi     : ${prodi}\nAngkatan  : ${angkatan}\n\nPesanan :\n\`\`\`\n`;
       lines.forEach(l => msg += `- ${l}\n`);
-      msg += `*Harga total :* ${formatRp(total)}\n`;
-    
-      const encoded = encodeURIComponent(msg);
-      window.open(`https://wa.me/${WA_NUMBER}?text=${encoded}`, '_blank');
+      msg += `\n*Harga total :* ${formatRp(total)}\n`;
+
+      const encodedText = encodeURIComponent(msg);
+      const waURL = `https://api.whatsapp.com/send/?phone=${WA_NUMBER}&text=${emoji}+${encodedText}+${emoji}&type=phone_number&app_absent=0`;
+      window.open(waURL, '_blank');
       userForm.style.display = 'none';
     });
-
 
     updateCartView();
   </script>
