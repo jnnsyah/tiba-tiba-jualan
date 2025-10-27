@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rice Bowl Chicken Popcorn - Tiba-Tiba Jualan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #FF6B35;
+      --secondary: #FFF3E0;
+      --accent: #4ECDC4;
+      --card-shadow: 0 10px 25px rgba(255,107,53,0.12);
+    }
+    body {
+      background: linear-gradient(180deg, var(--secondary) 0%, #FFFFFF 100%);
+    }
+    .brand-text {
+      text-shadow: 2px 2px 4px rgba(255,107,53,0.3);
+      font-weight: 800;
+    }
+    .product-card { 
+      border-radius: 20px;
+      box-shadow: var(--card-shadow);
+    }
+    .btn-primary-custom { 
+      background: linear-gradient(90deg, #FF6B35, #FF8E53);
+      color: white;
+      border: none;
+    }
+    .btn-primary-custom:hover {
+      background: linear-gradient(90deg, #FF8E53, #FF6B35);
+    }
+    .variant-btn.active {
+      background-color: #FF6B35 !important;
+      color: white !important;
+      border-color: #FF6B35 !important;
+    }
+    .nav-shadow {
+      box-shadow: 0 2px 15px rgba(255,107,53,0.1);
+    }
+    .switch-btn {
+      transition: all 0.3s ease;
+    }
+    .switch-btn.active {
+      background: linear-gradient(90deg, #FF6B35, #FF8E53);
+      color: white;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+  <!-- Navbar -->
+  <!-- <nav class="bg-white nav-shadow py-4">
+    <div class="container mx-auto px-4">
+      <div class="text-center">
+        <h1 class="text-3xl font-bold brand-text" style="color: var(--primary)">Tiba-Tiba Jualan</h1>
+      </div>
+    </div>
+  </nav> -->
+
+  <div class="container mx-auto px-4 py-6">
+    <!-- Back Button -->
+    <a href="index.html" class="inline-flex items-center text-gray-600 mb-6">
+      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+      Kembali ke Menu
+    </a>
+
+    <!-- Product -->
+    <div class="product-card bg-white p-6 max-w-2xl mx-auto">
+      <!-- Image -->
+      <div class="rounded-2xl overflow-hidden bg-orange-50 mb-6">
+        <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?w=500&h=350&fit=crop" alt="Rice Bowl" class="w-full h-64 object-cover">
+      </div>
+
+      <!-- Product Info -->
+      <h1 class="text-2xl font-bold mb-2" style="color: var(--primary)">Rice Bowl Chicken Popcorn</h1>
+      <p class="text-gray-600 mb-4">Nasi hangat dengan chicken popcorn crispy, sayuran segar, dan pilihan sambal spesial.</p>
+      
+      <!-- Price -->
+      <div class="text-2xl font-bold mb-6" style="color: var(--primary)">Rp 10.000</div>
+
+      <!-- Variant Selection -->
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 mb-3">Pilih Variant Sambal:</label>
+        <div class="grid grid-cols-3 gap-3">
+          <button class="variant-btn btn btn-outline-secondary" data-variant="Original">Original</button>
+          <button class="variant-btn btn btn-outline-secondary" data-variant="Sambal Jeruk">Sambal Jeruk</button>
+          <button class="variant-btn btn btn-outline-secondary" data-variant="Sambal Matah">Sambal Matah</button>
+        </div>
+      </div>
+
+      <!-- Quantity -->
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 mb-3">Jumlah:</label>
+        <div class="flex items-center justify-between max-w-xs mx-auto">
+          <button id="minus" class="w-12 h-12 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center">−</button>
+          <span id="qty" class="text-2xl font-bold mx-4">0</span>
+          <button id="plus" class="w-12 h-12 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center">+</button>
+        </div>
+      </div>
+
+      <!-- Add to Cart Button -->
+      <button id="addToCart" class="btn btn-primary-custom btn-lg w-full mb-4">Tambah ke Keranjang</button>
+
+      <!-- Cart -->
+      <div id="cart" class="hidden mb-6 p-4 bg-gray-50 rounded-lg">
+        <h3 class="font-semibold mb-3" style="color: var(--primary)">Keranjang Pesanan</h3>
+        <div id="cart-items" class="space-y-2 mb-3"></div>
+        <div class="text-lg font-bold border-t pt-2" style="color: var(--primary)" id="total">Total: Rp 0</div>
+      </div>
+
+      <!-- Checkout Button -->
+      <button id="checkout" class="btn btn-primary-custom btn-lg w-full mb-3" disabled>Checkout via WhatsApp</button>
+      <p class="text-xs text-gray-500 text-center">*Max 20 porsi per order</p>
+    </div>
+  </div>
+
+  <!-- Order Form -->
+  <div id="orderForm" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-md">
+      <h3 class="text-lg font-bold mb-4" style="color: var(--primary)">Data Pemesan</h3>
+      
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+          <input type="text" id="name" class="form-control" placeholder="Masukkan nama lengkap">
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+          <div class="flex border rounded-lg overflow-hidden">
+            <button class="switch-btn flex-1 py-2 px-4 border-r" data-role="Mahasiswa">Mahasiswa</button>
+            <button class="switch-btn flex-1 py-2 px-4" data-role="Dosen">Dosen</button>
+          </div>
+        </div>
+        
+        <div id="jurusanField" class="hidden">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Jurusan</label>
+          <input type="text" id="jurusan" class="form-control" placeholder="Masukkan jurusan">
+        </div>
+      </div>
+
+      <div class="flex gap-3 mt-6">
+        <button id="sendOrder" class="btn btn-primary-custom flex-1">Kirim ke WhatsApp</button>
+        <button id="cancelOrder" class="btn btn-outline-secondary">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const qtyEl = document.getElementById('qty');
+    const plus = document.getElementById('plus');
+    const minus = document.getElementById('minus');
+    const cart = document.getElementById('cart');
+    const cartItems = document.getElementById('cart-items');
+    const total = document.getElementById('total');
+    const checkout = document.getElementById('checkout');
+    const addToCart = document.getElementById('addToCart');
+    const orderForm = document.getElementById('orderForm');
+    const nameInput = document.getElementById('name');
+    const jurusan = document.getElementById('jurusan');
+    const jurusanField = document.getElementById('jurusanField');
+    const variantBtns = document.querySelectorAll('.variant-btn');
+    const sendOrder = document.getElementById('sendOrder');
+    const cancelOrder = document.getElementById('cancelOrder');
+    const switchBtns = document.querySelectorAll('.switch-btn');
+
+    let cartItemsData = [];
+    let currentVariant = '';
+    let currentQty = 0;
+    const harga = 10000;
+    let selectedRole = '';
+
+    // Switch Button untuk Role
+    switchBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        switchBtns.forEach(b => {
+          b.classList.remove('active', 'btn-primary-custom');
+          b.classList.add('bg-white', 'text-gray-700');
+        });
+        btn.classList.add('active', 'btn-primary-custom');
+        btn.classList.remove('bg-white', 'text-gray-700');
+        selectedRole = btn.dataset.role;
+        
+        // Toggle jurusan field
+        jurusanField.classList.toggle('hidden', selectedRole !== 'Mahasiswa');
+      });
+    });
+
+    // Variant Selection
+    variantBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        variantBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentVariant = btn.dataset.variant;
+      });
+    });
+
+    // Quantity
+    plus.addEventListener('click', () => {
+      if (currentQty < 20) {
+        currentQty++;
+        qtyEl.textContent = currentQty;
+      }
+    });
+
+    minus.addEventListener('click', () => {
+      if (currentQty > 0) {
+        currentQty--;
+        qtyEl.textContent = currentQty;
+      }
+    });
+
+    // Add to Cart
+    addToCart.addEventListener('click', () => {
+      if (!currentVariant) {
+        alert('Pilih variant sambal terlebih dahulu!');
+        return;
+      }
+      if (currentQty === 0) {
+        alert('Pilih jumlah pesanan!');
+        return;
+      }
+
+      // Add item to cart
+      cartItemsData.push({
+        variant: currentVariant,
+        qty: currentQty
+      });
+
+      updateCartView();
+      
+      // Reset current selection
+      currentQty = 0;
+      qtyEl.textContent = '0';
+      variantBtns.forEach(b => b.classList.remove('active'));
+      currentVariant = '';
+
+      // Show success feedback
+      addToCart.textContent = '✓ Ditambahkan!';
+      setTimeout(() => {
+        addToCart.textContent = 'Tambah ke Keranjang';
+      }, 1000);
+    });
+
+    function updateCartView() {
+      if (cartItemsData.length === 0) {
+        cart.classList.add('hidden');
+        checkout.disabled = true;
+        return;
+      }
+
+      cart.classList.remove('hidden');
+      checkout.disabled = false;
+
+      let html = '';
+      let totalAmount = 0;
+
+      cartItemsData.forEach((item, index) => {
+        const itemTotal = item.qty * harga;
+        totalAmount += itemTotal;
+        
+        html += `
+          <div class="flex justify-between items-center py-2 border-b">
+            <div>
+              <div class="font-medium">${item.variant} x${item.qty}</div>
+              <div class="text-sm text-gray-500">Rice Bowl Chicken Popcorn</div>
+            </div>
+            <div class="text-right">
+              <div class="font-medium">Rp ${itemTotal}</div>
+              <button class="text-red-500 text-sm remove-item" data-index="${index}">Hapus</button>
+            </div>
+          </div>
+        `;
+      });
+
+      cartItems.innerHTML = html;
+      total.textContent = `Total: Rp ${totalAmount}`;
+
+      // Add event listeners for remove buttons
+      document.querySelectorAll('.remove-item').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const index = parseInt(e.target.dataset.index);
+          cartItemsData.splice(index, 1);
+          updateCartView();
+        });
+      });
+    }
+
+    // Checkout
+    checkout.addEventListener('click', () => {
+      orderForm.classList.remove('hidden');
+      orderForm.classList.add('flex');
+    });
+
+    cancelOrder.addEventListener('click', () => {
+      orderForm.classList.add('hidden');
+    });
+
+    sendOrder.addEventListener('click', () => {
+      const nama = nameInput.value.trim();
+      
+      if (!nama) {
+        alert('Mohon isi nama lengkap');
+        return;
+      }
+
+      if (!selectedRole) {
+        alert('Pilih status (Mahasiswa/Dosen)');
+        return;
+      }
+
+      if (selectedRole === 'Mahasiswa' && !jurusan.value.trim()) {
+        alert('Mohon isi jurusan untuk mahasiswa');
+        return;
+      }
+
+      const jurusanText = selectedRole === 'Mahasiswa' ? ` (${jurusan.value.trim()})` : '';
+      
+      // Build order message
+      let orderDetails = '';
+      let totalAmount = 0;
+      
+      cartItemsData.forEach(item => {
+        const itemTotal = item.qty * harga;
+        totalAmount += itemTotal;
+        orderDetails += `- Rice Bowl ${item.variant} x${item.qty}\n`;
+      });
+
+      const pesan = `[🍱] New Order - Tiba Tiba Beli !\n\nNama: ${nama}\n${selectedRole}${jurusanText}\n\n*Pesanan*:\n${orderDetails}\n*Total Harga*: Rp ${totalAmount}\n\nTerima kasih!`;
+      
+      const encoded = encodeURIComponent(pesan);
+      window.open(`https://wa.me/6282327685595?text=${encoded}`, '_blank');
+      
+      // Reset form
+      orderForm.classList.add('hidden');
+      nameInput.value = '';
+      jurusan.value = '';
+      switchBtns.forEach(b => {
+        b.classList.remove('active', 'btn-primary-custom');
+        b.classList.add('bg-white', 'text-gray-700');
+      });
+      selectedRole = '';
+      jurusanField.classList.add('hidden');
+    });
+
+    // Initialize
+    updateCartView();
+  </script>
+</body>
+</html>
